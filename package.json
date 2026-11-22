@@ -3,11 +3,6 @@
   "description": "My Hyperframes Videos",
   "private": true,
   "type": "module",
-  "scripts": {
-    "dev": "npx --yes hyperframes preview",
-    "check": "npx --yes hyperframes check",
-    "render": "npx --yes hyperframes render"
-  },
   "devDependencies": {
     "hyperframes": "^0.9.79"
   },
