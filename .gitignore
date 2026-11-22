@@ -5,3 +5,4 @@ renders/
 .thumbnails/
 .media/
 scratch/
+.env*
