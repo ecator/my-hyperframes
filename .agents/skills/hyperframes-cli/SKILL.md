@@ -20,9 +20,9 @@ A `--json` result may carry `_meta.updateNotice`: a newer HyperFrames release is
 | Edit the timeline | `timeline` with `move`, `trim`, `split`, `set`, `duplicate`, `delete`, `apply`, `undo`, `ids` |
 | Reuse | `catalog`, `add` (`/hyperframes-registry`) |
 | Media and sound | `media-treatment`, `grade-compare`, `remove-background`, `tts`, `transcribe`, `beats`, `normalize-audio` (`/media-use`) |
-| Show and ship | `preview`, `present` (`/slideshow`), `render`, `share`, `publish` (legacy), `cloud`, `lambda`, `cloudrun` |
+| Show and ship | `preview`, `present` (`/slideshow`), `render`, `share`, `publish` (legacy) |
 | Desktop app | `open`, `catch-up` |
-| Upkeep | `doctor`, `browser`, `upgrade`, `usage`, `clean` |
+| Upkeep | `doctor`, `browser`, `upgrade`, `clean` |
 
 `captions` is not a command: run `transcribe`, then read ../hyperframes/references/captions.md.
 
@@ -34,7 +34,7 @@ A `--json` result may carry `_meta.updateNotice`: a newer HyperFrames release is
 2. `npx hyperframes check --json` and fix every error. While a lint error remains the layout and contrast audits don't run; "0 samples" means nothing was checked. Contrast failures carry a `suggestedColor`. A finding at a single sample (an entrance in flight) is info; a 3 s+ video with no visible change fails `sweep_static`.
 3. `npx hyperframes snapshot` and read the PNGs (under `.hyperframes/artifacts/snapshots/`): that is how you see the video. With sub-compositions, snapshot a midpoint of every scene; tiny unstyled content or a missing hero is a mount defect (`../hyperframes/references/format.md`).
 4. `npx hyperframes preview --background`, check the URL answers 200, give the person the project URL and wait, unless they asked for the file or for no stops. Passing checks alone is not a reason to render.
-5. Time to render (step 4): `npx hyperframes render --quality looks -o out.mp4` (`draft` while iterating, `delivery` for the final; paid plan: `cloud render --fps <data-fps> --quality high -o out.mp4`). Confirm the file is non-empty and `ffprobe` reports the root `data-duration` and the project's `data-width`/`data-height`, then look at decoded frames.
+5. Time to render (step 4): `npx hyperframes render --quality looks -o out.mp4` (`draft` while iterating, `delivery` for the final). Confirm the file is non-empty and `ffprobe` reports the root `data-duration` and the project's `data-width`/`data-height`, then look at decoded frames.
 
 "This element" or the current selection: `npx hyperframes preview --context --json --context-fields selection`; `no-selection` means ask them to click it.
 
@@ -62,8 +62,6 @@ Every write is kept and can be undone. At the start of a turn, `npx hyperframes 
 | Local | `render --quality looks -o out.mp4` (`draft`, `delivery`) |
 | Reproducible container | `render --docker --strict -o out.mp4` |
 | Batch from variables | `render --batch rows.json -o "renders/{name}.mp4"` |
-| Hosted, no local Chrome or FFmpeg | `cloud render` (`references/cloud.md`) |
-| Your own AWS or GCP | `lambda render`, `cloudrun render` (`references/lambda.md`, `references/cloudrun.md`) |
 
 A 30 s film renders in a minute or two: run it in the foreground. Detach only a render longer than your tool's timeout (`HYPERFRAMES_RENDER_DETACHED=1`, its own group, output to a log) and wait with `until grep -qE 'Render (complete|failed)' render.log; do sleep 5; done`, never `pgrep -f`, which matches its own loop and waits until the tool times out.
 
@@ -90,8 +88,6 @@ Read the row before running its command.
 | `beats` | `references/beats.md` |
 | `preview`, `play`, `render`, `share`, `publish` (legacy), Studio context | `references/preview-render.md` |
 | `doctor`, `browser` | `references/doctor-browser.md` |
-| `auth`, `cloud`, template variables | `references/cloud.md` |
-| `lambda`, `cloudrun` | `references/lambda.md`, `references/cloudrun.md` |
-| `info`, `upgrade`, `compositions`, `timeline`, `docs`, `usage` | `references/upgrade-info-misc.md` |
+| `info`, `upgrade`, `compositions`, `timeline`, `docs` | `references/upgrade-info-misc.md` |
 | `--strict` flags, run ids, `clean`, shader lint, JSON paths | `references/conventions.md` |
 | `keyframes` | `../hyperframes/references/motion.md` (Seeing motion) |

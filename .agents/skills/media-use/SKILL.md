@@ -1,6 +1,6 @@
 ---
 name: media-use
-description: Get or make any media for a HyperFrames video - music, sound effects, images, icons, logos, avatar and generated video, cutouts, colour grades and looks - with HeyGen or free local tools, and mix placed audio. Also for footage that looks dark, flat or dull, or should be stylized or hidden.
+description: Get or make any media for a HyperFrames video - music, sound effects, images, icons, logos, cutouts, colour grades and looks - with free catalog/local tools, and mix placed audio. Also for footage that looks dark, flat or dull, or should be stylized or hidden.
 ---
 
 # Media in HyperFrames
@@ -15,23 +15,16 @@ It prints one line, `resolved <id> → <path> (<type>, <metadata>)`. List reusab
 
 ## Where it comes from
 
-| Need | Free | HyperFrames credits | Local or the person's own key (only when they ask) |
-| --- | --- | --- | --- |
-| Music (`bgm`) | HeyGen catalog of 10k+ tracks (signed in) | Generated track | Local MusicGen |
-| Sound effects (`sfx`) | HeyGen (signed in); Openverse (credit CC BY); bundled | | |
-| Images, icons | HeyGen asset search, 75k+ (signed in) | Generated images | Local FLUX (mflux), if installed |
-| Logos (`logo`) | theSVG, GitHub avatar, favicon; never redrawn | | |
-| A presenter speaking | | Avatar video (`--type video`) | Local LTX for generic clips, if installed |
-| Cutouts | | Video: `--type cutout` | `npx hyperframes remove-background` |
-| Grades, LUTs, looks | `npx hyperframes media-treatment` | | |
+| Need | Free | Local or the person's own key (only when they ask) |
+| --- | --- | --- |
+| Music (`bgm`) | HeyGen catalog of 10k+ tracks (signed in) | Local MusicGen |
+| Sound effects (`sfx`) | HeyGen (signed in); Openverse (credit CC BY); bundled | |
+| Images, icons | HeyGen asset search, 75k+ (signed in) | Local FLUX (mflux), if installed |
+| Logos (`logo`) | theSVG, GitHub avatar, favicon; never redrawn | |
+| Cutouts | `npx hyperframes remove-background` | |
+| Grades, LUTs, looks | `npx hyperframes media-treatment` | |
 
-**Sign in.** Every time a request needs a HeyGen model or the catalog, run `npx hyperframes auth status` first. Not signed in: tell the person in one line that sign-in is free and gives the music catalog and asset search on the Free plan, ask them to type an exclamation mark and `npx hyperframes auth login` in the prompt, and wait until they say it is done. Use local tools only when the person asks, not as a fallback.
-
-**Host apps.** Inside an app with its own media tools, use those first. When `HEYGEN_API_BASE` is set, the host pays: don't ask for a sign-in; relay a refused call's message as written and stop.
-
-**HeyGen.** `npx hyperframes media-use generate` makes images, shots, talking photos and music on the sign-in alone. Helpers and direct recipes need the [`heygen` CLI](https://developers.heygen.com/cli); if it is missing, give the link and wait until they say it is installed. Direct `heygen` recipes bill that CLI's own login: use them only when that payer is selected.
-
-**Credits.** Plan for the best result: no cheaper or free swaps, no dropped items, unless asked to save cost. Don't volunteer prices, estimates or usage; `--plan` is for you. A credit limit the person sets: write it once to `.hyperframes/credit-limit.json` as `{"credits": N}`; every paid call then refuses what would go past it, GPT Image and H3 at estimate +10% (`references/heygen.md`) (`--max-credits` only tightens). A step that won't fit (a `--plan` over what is left, or a refused call): say what doesn't, ask before dropping or shrinking it. A refused call names a `billing` command: say why, ask them to run it, then retry.
+**Sign in.** Every time a request needs the HeyGen catalog, run `npx hyperframes auth status` first. Not signed in: tell the person in one line that sign-in is free and gives the music catalog and asset search on the Free plan, ask them to type an exclamation mark and `npx hyperframes auth login` in the prompt, and wait until they say it is done. Use local tools only when the person asks, not as a fallback.
 
 ## Looks on real footage
 
@@ -48,10 +41,9 @@ Scan a piece you build or review once for concrete gaps (emoji standing in for i
 | Resolve, reuse, adopt, ingest, flags | `references/resolve.md` |
 | Grading, LUTs, `grade-compare` | `references/grading.md` |
 | Music, sound effects, captions | `references/audio.md` |
-| Cut, reframe or transform media; direct `heygen` recipes | `references/operations.md` |
+| Cut, reframe or transform media | `references/operations.md` |
 | Treatments, realtime effects, overlays, reveals | `references/media-treatments.md` |
 | Install, sign-in, credentials, `--provider`, `--local-only`, RAM ladders | `references/setup-providers.md` |
-| `media-use generate`, prices | `references/heygen.md` |
 | Fades, gain, ducking, automation, effects, buses on placed tracks | `references/mixing.md` |
 | Local commands: grade, cutout, loudness, beats | `references/local.md` |
 | Remembered preferences | `references/memory.md` |

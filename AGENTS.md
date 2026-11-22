@@ -11,9 +11,7 @@
 - `/hyperframes` — 制作、编辑、制作动画或渲染任何视频、动态图形、字幕或叠加层时最先阅读。包含渲染契约和工作循环。
 - `/hyperframes-cli` — 按任务组织的 CLI 指南：初始化脚手架、检查、查看帧画面、编辑时间线、预览、渲染、发布及项目历史。
 - `/hyperframes-registry` — 可直接以可编辑源码形式安装的现成模块与组件。在手写任何常见视觉效果之前，请先搜索它。
-- `/media-use` — 获取或制作任意媒体素材（音乐、音效、图像、旁白、数字人与生成式视频、字幕转录、抠图、调色），并混合已放置的音频。
-- `/reverse-any-video` — 将任意视频文件重构为可编辑的 HyperFrames 项目，并逐帧与原视频比对检查（HyperFrames Pro）。
-- `/style-sampling` — 使用五种成熟视频风格之一，围绕指定主题制作新一集内容（HyperFrames Pro）。
+- `/media-use` — 获取或制作任意媒体素材（音乐、音效、图像、旁白、字幕转录、抠图、调色），并混合已放置的音频。
 - `/use-azure-tts` — 使用Azure TTS服务生成语音。
 - `/use-gemini-api-cli` — 使用Gemini API合成音乐或者图像素材。
 
