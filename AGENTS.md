@@ -1,116 +1,83 @@
-# HyperFrames Composition Project
+# My HyperFrames
 
-This folder is a [HyperFrames](https://hyperframes.heygen.com) video: HTML, CSS and seekable
-animations (GSAP by default) that the `hyperframes` CLI previews in the browser and renders to
-MP4.
+本目录是一个 [HyperFrames](https://hyperframes.heygen.com) 视频项目：由 HTML、CSS 和可寻帧动画（默认使用 GSAP）构成，可通过 `hyperframes` CLI 在浏览器中预览并渲染为 MP4。
 
-## Skills — read these first
+## Skills —— 请先阅读
 
-**Invoke the relevant skill before writing or modifying compositions.** Skills encode framework-specific patterns (e.g., `window.__timelines` registration, `data-*` attribute semantics, shader-compatible CSS rules) that generic web docs don't cover, so compositions written without them break.
+**编写或修改合成文件前，请先调用对应的 skill。** Skill 封装了框架特有的规范（例如 `window.__timelines` 注册、`data-*` 属性语义、兼容着色器的 CSS 规则），这些内容通用 Web 文档不会涵盖，未遵循时会导致合成出错。
 
-**Doing anything with HyperFrames?** Start at `/hyperframes`. Make any video by asking for it; the `/hyperframes` skill carries the contract and the references (each kind of film, story, motion, look, sound, review, captions, overlays). Read it first, especially when there's no project context to orient you.
+**进行任何 HyperFrames 相关操作？** 请从 `/hyperframes` 开始。只需提出需求即可制作任意视频；`/hyperframes` skill 包含渲染契约与各类参考资料（不同影片类型、叙事、动效、视觉风格、音频、审阅、字幕、叠加层）。请先阅读它，尤其是在缺少项目上下文时。
 
-- `/hyperframes` — read first for any request to make, edit, animate or render a video, motion graphic, captions or overlays. Holds the render contract and the work loop.
-- `/hyperframes-cli` — the CLI by job: scaffold, check, look at frames, edit the timeline, preview, render, publish, project history.
-- `/hyperframes-registry` — ready-made blocks and components installed as editable source. Search it before hand-building any named visual.
-- `/media-use` — get or make any media (music, sound effects, images, voiceover, avatar and generated video, transcripts, cutouts, colour grades) and mix placed audio.
-- `/reverse-any-video` — rebuild any video file as an editable HyperFrames project and check it against the original frame by frame (HyperFrames Pro).
-- `/style-sampling` — make a new episode on your topic in one of five proven styles (HyperFrames Pro).
-- `/figma` — bring a Figma design, frame, logo or brand into a video.
-- `/slideshow` — a presentation or pitch deck. Output is a navigable deck, not a rendered MP4.
-- `/remotion-to-hyperframes` — bring existing video code or footage into HyperFrames (Remotion first; also Motion Canvas, Lottie, Three.js, canvas, or renders from other tools) and verify it frame by frame against the original.
+- `/hyperframes` — 制作、编辑、制作动画或渲染任何视频、动态图形、字幕或叠加层时最先阅读。包含渲染契约和工作循环。
+- `/hyperframes-cli` — 按任务组织的 CLI 指南：初始化脚手架、检查、查看帧画面、编辑时间线、预览、渲染、发布及项目历史。
+- `/hyperframes-registry` — 可直接以可编辑源码形式安装的现成模块与组件。在手写任何常见视觉效果之前，请先搜索它。
+- `/media-use` — 获取或制作任意媒体素材（音乐、音效、图像、旁白、数字人与生成式视频、字幕转录、抠图、调色），并混合已放置的音频。
+- `/reverse-any-video` — 将任意视频文件重构为可编辑的 HyperFrames 项目，并逐帧与原视频比对检查（HyperFrames Pro）。
+- `/style-sampling` — 使用五种成熟视频风格之一，围绕指定主题制作新一集内容（HyperFrames Pro）。
 
-**Changing how real footage or images look or reveal?** Load `/media-use` and read its `references/media-treatments.md` before editing, even when the request only says dark, flat, boring, retro, private, or “make the reveal cooler.” It governs how footage is treated, never whether media may be used. Use canonical media treatments and seek-safe motion; do not improvise equivalent CSS/SVG filters or overlays.
 
-> **Tailwind v4 projects** (`hyperframes init --tailwind`): see `hyperframes-cli/references/init-and-scaffold.md` (Tailwind).
+**需要调整实拍素材或图片的外观与呈现方式？** 编辑前请先加载 `/media-use` 并阅读其 `references/media-treatments.md`——即使需求只是说画面太暗、太平淡、无聊、要复古风、需要隐私遮挡或“让出场更酷”。它规范的是素材处理方式，而非限制是否能使用媒体。请使用规范的媒体处理方式与可寻帧安全动效，不要自行拼凑等效的 CSS/SVG 滤镜或叠加层。
 
-> Follow the loaded skill’s launcher instructions for every CLI command below.
->
-> **Using a HyperFrames plugin?** Load skills from that installed bundle and follow
-> its `hyperframes/references/plugin-installation.md` execution rules. The person updates
-> the plugin through its plugin manager; the standalone commands below do not apply.
->
-> **Standalone skill missing or stale?** Installing and updating skills is the person's step:
-> tell them which skill is missing or stale, and do not run the install yourself. For the user:
-> `npx hyperframes skills update <name>` installs/refreshes that skill, and bare
-> `npx hyperframes skills update` refreshes the core set plus everything already installed —
-> neither pulls the full set. Newly installed skills load in a new agent session.
 
-## Commands
+## 常用命令
 
 ```bash
-npm run dev          # human-operated foreground preview (blocks until stopped)
-npx hyperframes preview --background  # agent-safe persistent Studio preview
-npx hyperframes preview --status      # verify the persistent preview is listening
-npx hyperframes preview --stop        # stop it when review is finished
-npm run check        # lint + runtime + layout + motion + contrast (one command)
-npx hyperframes snapshot --at 1,3,5  # PNG frames at those seconds, to look at before rendering
-npm run render       # render to MP4
-npm run publish      # publish and get a shareable link
-npx hyperframes lint --verbose  # include info-level findings
-npx hyperframes lint --json     # machine-readable output for CI
-npx hyperframes docs <topic> # reference docs in terminal
+npm run dev          # 人工操作的前台预览（阻塞直至停止）
+npx hyperframes preview --background  # 适用于 agent 的持久化 Studio 预览
+npx hyperframes preview --status      # 验证持久化预览是否正在监听
+npx hyperframes preview --stop        # 审阅完成后停止预览
+npm run check        # lint + 运行时 + 布局 + 动效 + 对比度（一键检查）
+npx hyperframes snapshot --at 1,3,5  # 截取指定秒数的 PNG 帧，渲染前用于查看画面
+npm run render       # 渲染为 MP4
+npm run publish      # 发布并获取可分享链接
+npx hyperframes lint --verbose  # 包含 info 级别的检查结果
+npx hyperframes lint --json     # 供 CI 使用的机器可读输出
+npx hyperframes docs <topic> # 在终端查看参考文档
 ```
 
-> **Agents must use `npx hyperframes preview --background` for Studio handoff.** Do not rely
-> on a shell/tool `run_in_background` wrapper around `npm run dev`: that foreground process
-> remains owned by the invoking session and can disappear while the browser stays open,
-> leaving refreshes at `ERR_CONNECTION_TIMED_OUT`. Verify with `preview --status`. The desktop
-> app can't edit the project while this preview runs, so `npx hyperframes open` stops it first.
-> If you hand the project to the app another way, run `preview --stop` before you do. Otherwise keep it
-> alive through review, and stop it explicitly with `preview --stop` afterward.
+## 文档
 
-> **Back from the desktop app.** Once this project was opened in the HyperFrames desktop app, run `npx hyperframes catch-up` before your next change here: it lists what the person asked Framey in the app and which files changed since.
-
-> **Pinned CLI version.** These scripts pin an exact `hyperframes@X.Y.Z` so this project re-renders identically over time. Weeks later that pin lags fixes shipped since. With standalone skills, run the installed launcher with `--cli-version latest upgrade --project . --check` to see the delta. Repeat without `--check` to rewrite the pins. Plugin workflows keep their bundled CLI.
-
-## Documentation
-
-**For quick reference**, use the local CLI docs command (no network required):
+**快速查阅**，可使用本地 CLI 文档命令（无需联网）：
 
 ```bash
 npx hyperframes docs <topic>
 ```
 
-Topics: `data-attributes`, `gsap`, `compositions`, `rendering`, `examples`, `troubleshooting`
+可选主题：`data-attributes`、`gsap`、`compositions`、`rendering`、`examples`、`troubleshooting`
 
-**For full documentation**, discover pages via the machine-readable index — do NOT guess URLs:
+**完整文档**，请通过机器可读索引发现页面——**不要**猜测 URL：
 
 ```
 https://hyperframes.heygen.com/llms.txt
 ```
 
-## Project Structure
+## 项目结构
 
-- `index.html` — main composition (root timeline)
-- `compositions/` — sub-compositions referenced via `data-composition-src`
-- `meta.json` — project metadata (id, name)
-- `transcript.json` — whisper word-level transcript (if generated)
+- `index.html` — 主合成文件（根时间线）
+- `compositions/` — 通过 `data-composition-src` 引用的子合成文件目录
 
-## Linting — ALWAYS RUN AFTER CHANGES
+## 检查与校验 —— 修改后务必执行
 
-After creating or editing any `.html` composition, **always** run the full check before considering the task complete:
+创建或编辑任意 `.html` 合成文件后，在认为任务完成之前，**务必**先运行完整检查：
 
 ```bash
 npm run check
 ```
 
-Fix all errors before presenting the result. Warnings should be reviewed before rendering.
+向用户交付结果前请修复所有错误（error）。渲染前应复核所有警告（warning）。
 
-Then look at what you changed: `npx hyperframes snapshot --at <seconds>` (or `--range START,END`, `--composition <id>`) at the moments you edited, and read the frames before you reply. A passing check does not show how it looks.
+接着查看你修改后的画面效果：在改动对应的时间点运行 `npx hyperframes snapshot --at <seconds>`（或 `--range START,END`、`--composition <id>`），并在回复前实际查看这些帧图像。检查通过并不代表视觉效果符合预期。
 
-## Key Rules
+## 核心规则
 
-1. Every timed element needs `data-start` and a duration. `data-start` is what marks it as timed; `data-track-index` is an optional Studio display lane the render never reads
-2. Give timed visual elements `class="clip"`. The framework keys visibility off `data-start`, not the class, but the shared `.clip` CSS is what gives a scene its full-frame box, and `lint` warns without it
-3. Register one paused root timeline per composition on `window.__timelines`:
+1. 每个带时间属性的元素都需要 `data-start` 和时长（duration）。`data-start` 用于标记该元素受时间轴控制；`data-track-index` 仅为可选的 Studio 显示轨道，渲染器不会读取它。
+2. 为带时间属性的视觉元素添加 `class="clip"`。框架依据 `data-start` 而非该 class 控制可见性，但共享的 `.clip` CSS 为场景提供全画幅容器框，缺少时 `lint` 会发出警告。
+3. 每个合成文件都必须在 `window.__timelines` 上注册一个初始暂停的根时间线：
    ```js
    window.__timelines = window.__timelines || {};
    window.__timelines["composition-id"] = gsap.timeline({ paused: true });
    ```
-   Scene timelines manually added to this root must not be paused. A paused
-   child does not advance when the root is seeked. The runtime activates
-   registered composition siblings, not arbitrary nested scene timelines.
-4. A video with sound keeps it on the `<video>` (`data-has-audio="true"`, no `muted`). Use a separate `<audio>` for music, voiceover, replacement audio, J/L cuts, or audio detached in Studio. Silent footage and b-roll: `muted`.
-5. Sub-compositions use `data-composition-src="compositions/file.html"` to reference other HTML files
-6. Only deterministic logic — no `Date.now()`, no `Math.random()`, no network fetches
+   手动添加到此根时间线中的场景子时间线**不能**设置为 `paused`。处于暂停状态的子时间线在根时间线寻帧时不会推进。运行时只会激活已注册的同级合成时间线，而不会自动激活任意嵌套的场景时间线。
+4. 带声音的视频应保留在 `<video>` 元素上（设置 `data-has-audio="true"`，不加 `muted`）。音乐、旁白、替换音轨、J/L 剪辑或在 Studio 中分离出来的音频请使用独立的 `<audio>` 元素。无声素材与 B-roll 请设置 `muted`。
+5. 子合成通过 `data-composition-src="compositions/file.html"` 引用其他 HTML 文件。
+6. 仅使用确定性逻辑——禁止使用 `Date.now()`、`Math.random()` 或网络请求。
