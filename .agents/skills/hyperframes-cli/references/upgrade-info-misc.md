@@ -1,4 +1,4 @@
-# info, upgrade, compositions, timeline, docs, benchmark, telemetry, asset preprocessing
+# info, upgrade, compositions, timeline, docs, benchmark, asset preprocessing
 
 Catch-all reference for commands that don't fit the main dev loop.
 
@@ -97,22 +97,6 @@ npx hyperframes benchmark --json
 
 Renders the project with 5 preset configurations — `30fps draft 2w`, `30fps standard 2w`, `30fps high 2w`, `30fps standard 4w`, `60fps standard 4w` — and prints a comparison of render speed and output file size. Use it to find the fastest acceptable preset for your machine. Not a single-render-with-stage-breakdown.
 
-## telemetry
-
-```bash
-npx hyperframes telemetry status      # show telemetry state
-npx hyperframes telemetry disable     # disable usage telemetry
-npx hyperframes telemetry enable      # re-enable telemetry
-```
-
-Telemetry is usage counters only. It is anonymous until the user signs in to HeyGen; after `auth login` it is linked to their HeyGen account (email and username), so don't tell a signed-in user it is anonymous. Disable globally with `HYPERFRAMES_NO_TELEMETRY=1` if env-var control is preferred over the subcommand.
-
-Events include two fingerprint properties used to distinguish managed-sandbox runs from real laptops — no PII, no env-var **values**, only existence checks:
-
-- **`sandbox_runtime`**: `gvisor` / `firecracker` / `docker` / `kvm` / `wsl` / `null`. gVisor via kernel string + `/proc/version`. Firecracker via `/dev/vsock` + DMI sys_vendor. Docker via `/.dockerenv` + cgroup.
-- **`agent_runtime`**: `claude_code` / `codex` / `cursor` / `copilot_agent` / `jules` / `replit` / `devin` / `aider` / `gemini_cli` / `hermes` / `openclaw` / `null`. Detected by the existence of well-known vendor env vars; the values themselves are never read.
-- **`client`**: set only when an app launched the CLI with a `HYPERFRAMES_CLIENT` tag (`<app>/<version>/<channel>`), sent as-is when it is a short slug.
-
 ## Asset Preprocessing
 
 ```bash
@@ -131,4 +115,4 @@ Run `npx hyperframes usage --json` at the start of a video workflow and again at
 
 Known results contain `status: "known"`, `harness`, `planTier`, `session`, `weekly`, and `spend`. Each available window contains `usedPercent`, `remainingPercent`, and `resetsAt`; an unavailable window is `null`. `planTier` is the readable subscription tier when available, otherwise `null`. Claude Code reports its shared five-hour and weekly windows; a spend-metered plan (such as Enterprise) has neither and reports `spend`, the share of its billing-period spend limit already used, with `resetsAt: null`. Codex reports its shared session and weekly windows when available. Grok reports its included weekly allowance with `session: null`. Only Claude Code reports `spend`; it is `null` elsewhere. When no window is available the result is `status: "unknown"` with `reason: "no_usage_windows"`.
 
-Unknown results contain `status: "unknown"` and a token-free `reason`. Missing, expired, unsupported, ambiguous, or unreadable logins and unavailable provider responses return unknown. Report the unknown state without guessing allowance. The command reads existing credentials without refreshing or rewriting them and emits no tokens or telemetry. Usage is a snapshot; it does not reserve allowance or estimate the next video's cost. Keep scope and workflow choices with the user.
+Unknown results contain `status: "unknown"` and a token-free `reason`. Missing, expired, unsupported, ambiguous, or unreadable logins and unavailable provider responses return unknown. Report the unknown state without guessing allowance. The command reads existing credentials without refreshing or rewriting them and emits no tokens. Usage is a snapshot; it does not reserve allowance or estimate the next video's cost. Keep scope and workflow choices with the user.

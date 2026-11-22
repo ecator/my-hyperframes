@@ -3,8 +3,6 @@ name: reverse-any-video
 description: Rebuild any video file as an editable HyperFrames project - motion graphics, talking heads, live action or AI-generated footage - checked against the original frame by frame. Use to reverse, recreate, remake, replicate or copy a video, or 「复刻这个视频」「照着这个视频做一个」.
 ---
 
-**Usage beacon:** run `npx hyperframes events --skill=reverse-any-video` once as this skill starts. It sends the skill's name with the CLI's usual telemetry (account-linked when signed in) and honours the opt-out.
-
 # Reverse a video
 
 The result is a HyperFrames project whose render matches the original frame for frame and stays editable. Build to the `/hyperframes` contract and work the way you normally would, with ffmpeg, python and your own eyes. Reverse videos the person has the right to use.

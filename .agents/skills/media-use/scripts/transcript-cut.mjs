@@ -8,7 +8,6 @@ import { dirname, extname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { compileCutList } from "./lib/cutlist.mjs";
 import { fadeFilterFor } from "./lib/transcriptCutFade.mjs";
-import { track } from "./lib/telemetry.mjs";
 import { terminalText } from "./lib/terminal-text.mjs";
 
 const { values: args } = parseArgs({
@@ -53,13 +52,6 @@ Options:
 
 try {
   run();
-  await track("media_use_transcript_cut", {
-    mode: args.plan ? "plan" : "encode",
-    remove_fillers: !!args["remove-fillers"],
-    cut_silence: !!args["cut-silence"],
-    ranges: !!args.remove,
-    keep: !!args.keep,
-  });
 } catch (err) {
   if (args.json) console.log(JSON.stringify({ ok: false, error: err.message }));
   else console.error(`error: ${err.message}`.split("\n").map(terminalText).join("\n"));

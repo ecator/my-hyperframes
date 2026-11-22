@@ -52,7 +52,6 @@ test(
               HOME: home,
               HYPERFRAMES_PARAKEET: parakeet,
               HYPERFRAMES_MEDIA_HOME: join(root, "media"),
-              HYPERFRAMES_NO_TELEMETRY: "1",
             },
           },
         );
@@ -99,7 +98,7 @@ function runScript(engine, cliEngine) {
       [script, "--input", input, "--engine", engine, "--json"],
       {
         encoding: "utf8",
-        env: { ...env, HYPERFRAMES_MEDIA_HOME: join(root, "home"), HYPERFRAMES_NO_TELEMETRY: "1" },
+        env: { ...env, HYPERFRAMES_MEDIA_HOME: join(root, "home") },
       },
     );
     return { result: JSON.parse(out.trim()), args: readFileSync(join(root, "args"), "utf8") };
@@ -165,7 +164,6 @@ test(
             HYPERFRAMES_CLI_ENTRY: cli,
             HOME: root,
             HYPERFRAMES_MEDIA_HOME: join(root, "home"),
-            HYPERFRAMES_NO_TELEMETRY: "1",
           },
         },
       );
@@ -208,7 +206,6 @@ test(
           env: {
             ...env,
             HYPERFRAMES_MEDIA_HOME: join(root, "home"),
-            HYPERFRAMES_NO_TELEMETRY: "1",
           },
         },
       );

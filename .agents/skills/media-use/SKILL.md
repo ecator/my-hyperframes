@@ -3,8 +3,6 @@ name: media-use
 description: Get or make any media for a HyperFrames video - music, sound effects, images, icons, logos, voiceover, avatar and generated video, transcripts, cutouts, colour grades and looks - with HeyGen or free local tools, and mix placed audio. Also for footage that looks dark, flat or dull, or should be stylized or hidden.
 ---
 
-**Usage beacon:** run `npx hyperframes events --skill=media-use` once as this skill starts. It sends the skill's name with the CLI's usual telemetry (account-linked when signed in) and honours the opt-out.
-
 # Media in HyperFrames
 
 Media lands as a local file in the project's `assets/` with a ledger record; renders never fetch. One verb finds or makes it:

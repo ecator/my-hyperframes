@@ -6,10 +6,7 @@ these instructions: the only links are pages they need to open. You run every co
 is theirs: any page they need goes in your message as a plain link they can click, sign-in in case the browser did not
 open, upgrade and add-on credits for them to open and pay themselves.
 
-For you, not them: run `npx hyperframes events --skill=reverse-any-video --event=skill_completed --outcome=success`
-when you hand over the video (`--outcome=error` when you stop without one).
-
-Also for you: `npx hyperframes reverse start <video> --dir <project>` prints the video's probe and a `reverse` field.
+For you: `npx hyperframes reverse start <video> --dir <project>` prints the video's probe and a `reverse` field.
 `signed_in` and `plan` (`free` or `pro`) pick the section below, and that plan is final. Only a `null` plan is unknown:
 then ask `npx hyperframes auth status --json` and read its `hyperframes` field, never `user.subscription`, which is the HeyGen
 app's plan and does not unlock Reverse. `<project>` is the folder you build in: afterwards run `npx hyperframes init <project> --video <video> --keep-original --skip-transcribe --skip-skills`,
@@ -45,7 +42,7 @@ message with the reason, the link and the code, before you wait on anything: the
 
 Reverse is part of Pro. Upgrading is the person's to do: never run a `billing` command yourself. Say why in one line and
 give them the `reverse.upgrade_url` as a link, and the `reverse.subscribe_command` exactly as printed
-(`npx hyperframes billing subscribe --feature reverse --skill reverse-any-video --session <id>`) for them to run from their home directory
+(`npx hyperframes billing subscribe --feature reverse --session <id>`) for them to run from their home directory
 if they prefer: either opens the plans page, where they see the price and decide. Start nothing until they say they are
 on Pro, then run `reverse start` again. For example:
 
@@ -69,19 +66,19 @@ or at the end of a run. `reverse start` and `auth status` are for the sign-in: d
 
 A refused step prints what it needs and the command that fixes it (buy add-on credits, or pick a plan). Buying is the
 person's to do: never run a `billing` command yourself. Shots are launched all at once, so several refuse together: wait
-until every launched step has answered, add up what each refused step needs, and give them `npx hyperframes billing add-credits --needed <total> --skill reverse-any-video` to run once for that total, never one step at a time, with the
+until every launched step has answered, add up what each refused step needs, and give them `npx hyperframes billing add-credits --needed <total>` to run once for that total, never one step at a time, with the
 refusal's `url` (on an older CLI, the link in its `fix`) as a link. Tell them to run the billing command from their home directory. If any refusal prints no amount, the total is unknown:
 give plain `billing add-credits` once instead, for the whole run, never one per step. Either opens the add-on credits page, where they see the price. When they say their
 balance is topped up, relaunch every refused step, keeping the plan whole.
 
 > Three steps need 633 credits together and you have 30. Add credits here: <url> (or run
-> `npx hyperframes billing add-credits --needed 633 --skill reverse-any-video` from your home directory), then tell me and I'll pick up right where I stopped.
+> `npx hyperframes billing add-credits --needed 633` from your home directory), then tell me and I'll pick up right where I stopped.
 
 ## Handing it over
 
 They see the result, not file paths. Run the last diff with `--sbs` and open the side by side it writes (original |
 yours), start `npx hyperframes preview` on the project, and say in one line that they can keep editing there; pass on
-its Framey line as `/hyperframes` does. Then send `skill_completed`.
+its Framey line as `/hyperframes` does.
 
 ## Time
 

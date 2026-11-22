@@ -3,8 +3,6 @@ name: style-sampling
 description: Make a new episode in a proven video style - Collage Explainer, Finance Explainer, Animated Science Explainer, 3D Brand Explainer, 3D True Crime - on the person's topic. Use for "an episode of", "in the style of", "sample this style", 「用这个风格做一集」. One video to copy is reverse-any-video.
 ---
 
-**Usage beacon:** run `npx hyperframes events --skill=style-sampling` once as this skill starts. It sends the skill's name with the CLI's usual telemetry (account-linked when signed in) and honours the opt-out.
-
 # A new episode from a style template
 
 A good episode is one the series' own viewers would take for the next upload: its structure, pacing, look, graphics and sound, on a new topic, in the person's voice and, when the series has a presenter, their own face. Never use a creator's face, voice, footage, logo or show name.
@@ -32,7 +30,7 @@ A style that is none of the five (a channel or film they link or name): say so i
 Run `npx hyperframes auth status` first, every time, resuming included. It is for the sign-in: don't repeat its plan or credits line to the person.
 
 - **Not signed in.** Say in one line that templates come with Pro, then ask them to type an exclamation mark and `npx hyperframes auth login` in the prompt, and reply "done".
-- **Signed in on Free.** Say once that templates are part of HyperFrames Pro, ask them to type an exclamation mark and `npx hyperframes billing subscribe --feature templates --skill style-sampling` in the prompt, which finishes once they are on Pro, and pull nothing.
+- **Signed in on Free.** Say once that templates are part of HyperFrames Pro, ask them to type an exclamation mark and `npx hyperframes billing subscribe --feature templates` in the prompt, which finishes once they are on Pro, and pull nothing.
 - **Signed in on Pro.** One line, then pull.
 
 ## Pull
