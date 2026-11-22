@@ -173,11 +173,20 @@ test("npx hyperframes runs the CLI handed over in HYPERFRAMES_CLI_ENTRY on every
   }
 });
 
-test("npx hyperframes without a handed-over CLI throws the fix instead of resolving it", () => {
+test("npx hyperframes without HYPERFRAMES_CLI_ENTRY resolves directly to npx", () => {
   for (const env of [{}, { HYPERFRAMES_CLI_ENTRY: "bin/hyperframes.mjs" }]) {
-    assert.throws(
-      () => resolveSpawnCommand("npx", ["hyperframes", "tts"], {}, "darwin", env, pathExists),
-      /HYPERFRAMES_CLI_ENTRY/,
-    );
+    const darwin = resolveSpawnCommand("npx", ["hyperframes", "tts"], {}, "darwin", env, pathExists);
+    assert.equal(darwin.cmd, "npx");
+    assert.deepEqual(darwin.args, ["hyperframes", "tts"]);
   }
+  const win = resolveSpawnCommand(
+    "npx",
+    ["hyperframes", "tts"],
+    {},
+    "win32",
+    envWithNpxCli,
+    pathExists,
+  );
+  assert.equal(win.cmd, envWithNpxCli.npm_node_execpath);
+  assert.deepEqual(win.args, [npxCliPath, "hyperframes", "tts"]);
 });

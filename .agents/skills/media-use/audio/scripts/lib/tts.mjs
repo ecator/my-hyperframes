@@ -158,18 +158,12 @@ export function resolveNpxCliPath(
   return pathExists(besideNode) ? besideNode : null;
 }
 
-export const MISSING_CLI_MESSAGE =
-  "No HyperFrames CLI was handed to this helper, and it does not look one up in the project. " +
-  "Run the helper through the plugin launcher (`plugin-cli.mjs --script <helper> ...`), or set " +
-  "HYPERFRAMES_CLI_ENTRY to the absolute path of your installed CLI's bin/hyperframes.mjs.";
-
-// The HyperFrames CLI or plugin launcher that starts this code hands over its own entry file, so
-// `npx hyperframes` runs that same CLI with the same Node. Without one it fails rather than
-// letting npx resolve `hyperframes` from the project.
+// Optional override: if HYPERFRAMES_CLI_ENTRY is set to an absolute path, run that CLI directly;
+// otherwise fall through to `npx hyperframes`.
 function launchingCliCommand(cmd, args, env = process.env) {
   if (cmd !== "npx" || args[0] !== "hyperframes") return null;
   const entry = env.HYPERFRAMES_CLI_ENTRY;
-  if (!entry || !isAbsolute(entry)) throw new Error(MISSING_CLI_MESSAGE);
+  if (!entry || !isAbsolute(entry)) return null;
   return { cmd: process.execPath, args: [entry, ...args.slice(1).map((arg) => String(arg))] };
 }
 
@@ -205,11 +199,9 @@ export function resolveSpawnCommand(
 // (its ESM exports are non-configurable, so mock.method can't patch it).
 // One-shot so a whole batch of TTS lines doesn't repeat the same diagnostic.
 let _warnedNpxResolution = false;
-let _warnedMissingCli = false;
-/** Test-only: reset the one-shot npx-resolution warning latches. */
+/** Test-only: reset the one-shot npx-resolution warning latch. */
 export function _resetNpxResolutionWarnForTests() {
   _warnedNpxResolution = false;
-  _warnedMissingCli = false;
 }
 
 export function spawnP(
@@ -221,16 +213,7 @@ export function spawnP(
   env = process.env,
   pathExists = existsSync,
 ) {
-  let resolved;
-  try {
-    resolved = resolveSpawnCommand(cmd, args, opts, platform, env, pathExists);
-  } catch (error) {
-    if (!_warnedMissingCli) {
-      _warnedMissingCli = true;
-      console.error(`[media-use] ${error.message}`);
-    }
-    return Promise.resolve({ status: -1, error: error.message });
-  }
+  const resolved = resolveSpawnCommand(cmd, args, opts, platform, env, pathExists);
   if (!resolved) {
     // resolveSpawnCommand only returns null for the npx-on-win32 case where
     // neither npm's configured CLI nor the beside-node fallback exists. Without

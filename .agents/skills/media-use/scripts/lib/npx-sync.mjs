@@ -24,19 +24,12 @@ function resolveNpxCliPath(env, pathExists) {
 // so tests can exercise the win32 branch without mocking node:child_process
 // (its ESM exports are non-configurable) — same idiom as spawnP and
 // localTtsGenerate.
-// The HyperFrames CLI or plugin launcher that starts this code hands over its own entry file, so
-// `npx hyperframes` runs that same CLI with the same Node. Without one it fails rather than
-// letting npx resolve `hyperframes` from the project.
+// Optional override: if HYPERFRAMES_CLI_ENTRY is set to an absolute path, run that CLI directly;
+// otherwise fall through to `npx hyperframes`.
 function launchingCliInvocation(argv, opts, env) {
   if (argv[0] !== "hyperframes") return null;
   const entry = env.HYPERFRAMES_CLI_ENTRY;
-  if (!entry || !isAbsolute(entry)) {
-    throw new Error(
-      "No HyperFrames CLI was handed to this helper, and it does not look one up in the project. " +
-        "Run the helper through the plugin launcher (`plugin-cli.mjs --script <helper> ...`), or set " +
-        "HYPERFRAMES_CLI_ENTRY to the absolute path of your installed CLI's bin/hyperframes.mjs.",
-    );
-  }
+  if (!entry || !isAbsolute(entry)) return null;
   return {
     cmd: process.execPath,
     args: [entry, ...argv.slice(1).map((arg) => String(arg))],
