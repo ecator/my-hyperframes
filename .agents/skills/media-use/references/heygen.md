@@ -1,16 +1,16 @@
 # HeyGen from the HyperFrames CLI
 
-`media-use generate` and `transcribe --engine heygen` call HeyGen directly with the HyperFrames sign-in; they need no `heygen` CLI. Every paid call carries a key derived from what it asks, so running the same command again picks up the same job instead of paying twice (a failed or refused one is sent as a new job), and each job is logged in the project's `.hyperframes/heygen-jobs.jsonl`.
+`media-use generate` calls HeyGen directly with the HyperFrames sign-in; it needs no `heygen` CLI. Every paid call carries a key derived from what it asks, so running the same command again picks up the same job instead of paying twice (a failed or refused one is sent as a new job), and each job is logged in the project's `.hyperframes/heygen-jobs.jsonl`.
 
 ## Signing in
 
 `npx hyperframes auth status` says what is signed in. The credential is read in this order: a host app's `HEYGEN_ACCESS_TOKEN`, the session `npx hyperframes auth login` saved in `~/.hyperframes/credentials`, `HEYGEN_API_KEY`, `HYPERFRAMES_API_KEY` set in the shell, an API key saved with `auth login --api-key`, then a key that a project's `.env` sets. A project `.env` key is used only when no login or key is saved and the shell sets none, never in place of an expired session, and the scripts name that `.env` file on stderr when they use one. A signed-in session wins over an env key; the env key is used when HeyGen refuses to refresh the session. `heygen auth login` is a separate sign-in that only the `heygen` CLI reads.
 
-| Credential                 | Pays with                                    | Covers                                                                                 |
-| -------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------- |
-| API key                    | API credits                                  | everything below                                                                       |
-| Sign-in (OAuth)            | the plan's allowance on subscription credits | avatar videos, video shots, lipsync, cut-outs, images, voices, music and transcription |
-| Inside the HyperFrames app | the app                                      | whatever the app allows; nothing to set up                                             |
+| Credential                 | Pays with                                    | Covers                                                           |
+| -------------------------- | -------------------------------------------- | ---------------------------------------------------------------- |
+| API key                    | API credits                                  | everything below                                                 |
+| Sign-in (OAuth)            | the plan's allowance on subscription credits | avatar videos, video shots, lipsync, cut-outs, images and music |
+| Inside the HyperFrames app | the app                                      | whatever the app allows; nothing to set up                       |
 
 A refusal names its fix: `api_key_required` needs an API key, `402` or `insufficient_credit` needs add-on credits, `hf_usage_exhausted` means the plan's allowance is used up.
 
@@ -38,8 +38,6 @@ npx hyperframes media-use generate --type cutout --video assets/host.mp4 --out a
 npx hyperframes media-use generate --type avatar --photo assets/person.png --script "…" --voice English --out assets/person.mp4
 # a finished voice stays exactly as it is: --audio replaces --script and --voice, --avatar <look id> replaces --photo, --prompt moves a photo
 npx hyperframes media-use generate --type avatar --photo assets/person.png --audio assets/vo.mp3 --prompt "seated, talks with both hands" --aspect 16:9 --out assets/host.mp4
-# a voice reading text; --voice takes a language (HeyGen's first voice in it, named in the output) or a voice id
-npx hyperframes media-use generate --type voice --script "…" --voice Chinese --out assets/vo.mp3
 # music, 30, 60, 120 or 180 s (instrumental unless --vocals), trimmed to length in the composition
 npx hyperframes media-use generate --type music --prompt "warm lo-fi, soft keys" --seconds 30 --bpm 90 --out assets/music.mp3
 ```
@@ -54,16 +52,7 @@ The file lands at `--out` and the media ledger records it as generated, with the
 | avatar  | talking photo                                                                                                                 | $4.83 a minute of speech                                                                                                                                                                                                                                                                                                                |
 | cutout  | HeyGen background removal                                                                                                     | not priced ahead                                                                                                                                                                                                                                                                                                                        |
 | music   | lyria-3-pro                                                                                                                   | $0.08 a track                                                                                                                                                                                                                                                                                                                           |
-| voice   | the voice's engine                                                                                                            | charged per character, not priced ahead                                                                                                                                                                                                                                                                                                 |
 
 Each image model takes only its own aspect ratios and reference count, and generate refuses the rest: gpt-image 1:1, 16:9, 9:16, 4:3 or 3:4 with up to 16 references; nano-banana those and 3:2, 2:3 or 21:9 with up to 14; minimax-h3-image gpt-image's and 21:9 with up to 16.
 
-`--plan`'s `usd` is what an API key is charged (HeyGen rounds up to units of $1/60); its `credits` is what a HyperFrames plan charges, on the plan's own rates: a video shot's seconds and guide seconds, plus each picture past the first two. Without `--voice`, generate lists voice ids to pick from on the sign-in alone; a cloned voice from `heygen voice clone create` (`operations.md`).
-
-## Transcription: `transcribe --engine heygen`
-
-```bash
-npx hyperframes transcribe interview.mp4 --engine heygen --speakers
-```
-
-Word times from HeyGen's speech model, each word with its speaker under `--speakers`, in the same `transcript.json` local engines write. The local engines (`--engine auto`) are free and good for one clear voice; HeyGen is the better choice for several speakers, noise or music under the voice.
+`--plan`'s `usd` is what an API key is charged (HeyGen rounds up to units of $1/60); its `credits` is what a HyperFrames plan charges, on the plan's own rates: a video shot's seconds and guide seconds, plus each picture past the first two.

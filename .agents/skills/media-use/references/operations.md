@@ -59,7 +59,6 @@ sign-in alone, the rest through the `heygen` CLI. Showing the user a
 | Upscale                 | `realesrgan-ncnn-vulkan -i in.png -o out.png -s 4` | n/a                                                                              |
 | Lipsync (dub)           | n/a                                                | `hyperframes media-use generate --type lipsync`                                  |
 | Translate               | n/a                                                | `heygen video-translate`                                                         |
-| Clone a voice           | n/a                                                | `heygen voice clone create`                                                      |
 | Text to video           | n/a                                                | `heygen video-agent create`                                                      |
 | Clips from a long video | n/a                                                | `heygen ai-clipping`                                                             |
 
@@ -104,35 +103,6 @@ tone-mapping it. To animate the transformation, keep the original and processed
 files as two real media layers and use the seek-safe GSAP timeline to reveal or
 crossfade between them. Use the realtime Bayer shader instead when the dither
 amount itself must animate continuously.
-
-## Transcription (default: Parakeet, better than whisper.cpp)
-
-`transcribe.mjs` is the default local transcription path. It runs **NVIDIA
-Parakeet-TDT via parakeet-mlx**, which beats whisper.cpp on the Open ASR
-Leaderboard (avg WER ~6.05% vs 7.44%; on NOISY audio 4.73% vs 5.96%, where
-whisper-large-v3 hallucinated to 308% WER on meetings) and is 5-10x faster.
-It emits `{ text, words:[{text,start,end}] }` with word timestamps (merged from
-Parakeet's sub-word tokens), feeding transcript-cut, captions, and the audio
-engine directly.
-
-```bash
-# install once: uv venv ~/.venvs/parakeet && VIRTUAL_ENV=~/.venvs/parakeet uv pip install parakeet-mlx
-node <SKILL_DIR>/scripts/transcribe.mjs --input talk.mp4 --out talk.transcribe.json
-
-# the hyperframes CLI runs Parakeet on macOS, Linux and Windows once it is installed:
-npx hyperframes models install parakeet                 # once, ~640 MB, ask the user first
-npx hyperframes transcribe talk.mp4 --engine parakeet   # or --engine auto (default)
-```
-
-VERIFIED on 24GB: accurate, ~3s (cached) for 8s audio. Parakeet covers 25
-European languages, English included. For other languages, or when parakeet-mlx is not
-installed, transcribe.mjs falls back to `npx hyperframes transcribe`, which uses the
-CLI's Parakeet when `models install parakeet` has run and whisper.cpp (99
-languages) otherwise. `--engine parakeet|whisper` forces one, except that a
-`--language` other than English runs whisper whenever it is installed, since
-Parakeet detects the language itself. (Cohere
-Transcribe tops the leaderboard on paper but its mlx-audio quants produced
-garbage and ran 40-70x slower on a Mac in testing, so it is not wired in.)
 
 ## Text-based editing (transcript cut)
 

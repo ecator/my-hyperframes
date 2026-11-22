@@ -14,10 +14,11 @@
 - `/media-use` — 获取或制作任意媒体素材（音乐、音效、图像、旁白、数字人与生成式视频、字幕转录、抠图、调色），并混合已放置的音频。
 - `/reverse-any-video` — 将任意视频文件重构为可编辑的 HyperFrames 项目，并逐帧与原视频比对检查（HyperFrames Pro）。
 - `/style-sampling` — 使用五种成熟视频风格之一，围绕指定主题制作新一集内容（HyperFrames Pro）。
+- `/use-azure-tts` — 使用Azure TTS服务生成语音。
+- `/use-gemini-api-cli` — 使用Gemini API合成音乐或者图像素材。
 
 
 **需要调整实拍素材或图片的外观与呈现方式？** 编辑前请先加载 `/media-use` 并阅读其 `references/media-treatments.md`——即使需求只是说画面太暗、太平淡、无聊、要复古风、需要隐私遮挡或“让出场更酷”。它规范的是素材处理方式，而非限制是否能使用媒体。请使用规范的媒体处理方式与可寻帧安全动效，不要自行拼凑等效的 CSS/SVG 滤镜或叠加层。
-
 
 ## 常用命令
 

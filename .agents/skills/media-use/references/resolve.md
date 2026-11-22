@@ -17,7 +17,6 @@ A weak match is still returned, with a `media-use: low-confidence match` line on
 | `image` | Photos, backgrounds              | HeyGen asset search (75k+ vectors)                           |
 | `icon`  | Icons, symbols                   | HeyGen asset search (type=icon)                              |
 | `logo`  | Official brand marks             | theSVG → GitHub org avatar → domain favicon                  |
-| `voice` | TTS voiceover                    | HeyGen TTS free-usage path; optional local Kokoro            |
 | `grade` | HyperFrames color-grading blocks | Core preset → look index params/CDN LUT → deterministic cube |
 | `lut`   | Reusable `.cube` LUT files       | Look index params/CDN LUT → deterministic cube               |
 
@@ -57,7 +56,7 @@ npx hyperframes media-use resolve --type lut --intent "teal orange blockbuster" 
 
 | Flag            | Description                                                                          |
 | --------------- | ------------------------------------------------------------------------------------ |
-| `--type, -t`    | Media type: bgm, sfx, image, icon, logo, voice, grade, lut                           |
+| `--type, -t`    | Media type: bgm, sfx, image, icon, logo, grade, lut                                  |
 | `--intent, -i`  | What you need (natural language)                                                     |
 | `--entity, -e`  | Entity name for cache matching (optional)                                            |
 | `--project, -p` | Project directory (default: .)                                                       |
@@ -66,7 +65,7 @@ npx hyperframes media-use resolve --type lut --intent "teal orange blockbuster" 
 | `--from`        | Freeze a local file or direct public URL (ingest)                                    |
 | `--for`         | Analyze a local image/video and add measured adjust suggestions (`grade` only)       |
 | `--local-only`  | Offline: skip every network provider (cache + local only)                            |
-| `--provider`    | Force one generator (e.g. `codex`, `mflux`, `kokoro`, `heygen`)                      |
+| `--provider`    | Force one generator (e.g. `codex`, `mflux`, `heygen`)                                |
 | `--adopt`       | Bulk-import existing assets/ into manifest                                           |
 | `--doctor`      | Check local CLI dependencies; no manifest changes                                    |
 | `--stats`       | Print local usage stats from `.media/` and `~/.media`; no manifest changes           |
